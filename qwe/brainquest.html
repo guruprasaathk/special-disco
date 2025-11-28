@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BrainQuest</title>
+</head>
+<body style="text-align:center; font-size:25px;">
+
+    <h1> 💡 BrainQuest – Quiz App</h1>
+    <h2>Select a Topic</h2>
+
+    <!-- Topic Buttons -->
+    <button onclick="startQuiz('math')" style="font-size:22px;">Math</button>
+    <button onclick="startQuiz('gk')" style="font-size:22px;">General Knowledge</button>
+
+    <hr>
+
+    <!-- Quiz Area -->
+    <div id="quizBox" style="margin-top:20px;"></div>
+
+    <script>
+        // QUIZ QUESTIONS (stored in arrays)
+        const questions = {
+            math: [
+                { q: "5 + 7 = ?", options: ["10", "12", "9"], answer: "12" },
+                { q: "9 - 4 = ?", options: ["5", "3", "6"], answer: "5" }
+            ],
+
+            gk: [
+                { q: "National bird of India?", options: ["Peacock", "Sparrow", "Eagle"], answer: "Peacock" },
+                { q: "Capital of India?", options: ["Delhi", "Mumbai", "Chennai"], answer: "Delhi" },
+                { q: "The other name of lok sabha", options: ["Power House", "Lower House", "Upper House"], answer: "Lower House" },
+                { q: "Largest planet in the Solar System?", options: ["Earth", "Jupiter", "Mars"], answer: "Jupiter" },
+                { q: "Fastest land animal?", options: ["Cheetah", "Lion", "Tiger"], answer: "Cheetah" },
+                { q: "Which is the longest river in the world?", options: ["Nile", "Ganga", "Amazon"], answer: "Nile" },
+                { q: "The first indian won gentlemen of racer", options: ["Ajith Kumar", "Narain Karthikeyan", "Karun Chandhok"], answer: "Ajith Kumar" },
+                { q: "Who was the captain of India's second Cricket World Cup victory in 2011", options: ["Virat kohli", "MS.Dhoni", "Sachin tendulkar"], answer: "MS.Dhoni" }
+            ]
+        };
+
+        let currentTopic = "";
+        let index = 0;
+        let score = 0;
+
+        function startQuiz(topic) {
+            currentTopic = topic;
+            index = 0;
+            score = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            let qObj = questions[currentTopic][index];
+
+            let html = `
+                <h3>Question ${index + 1}</h3>
+                <p>${qObj.q}</p>
+            `;
+
+            qObj.options.forEach(opt => {
+                html += `<button onclick="checkAnswer('${opt}')" style="font-size:20px; margin:5px;">${opt}</button><br>`;
+            });
+
+            document.getElementById("quizBox").innerHTML = html;
+        }
+
+        function checkAnswer(opt) {
+            if (opt === questions[currentTopic][index].answer) {
+                score++;
+            }
+            index++;
+
+            if (index < questions[currentTopic].length) {
+                showQuestion();
+            } else {
+                showScore();
+            }
+        }
+
+        function showScore() {
+            document.getElementById("quizBox").innerHTML =
+                `<h2>Quiz Completed!</h2>
+                 <h3>Your Score: ${score} / ${questions[currentTopic].length}</h3>`;
+        }
+    </script>
+
+</body>
+</html>
+
